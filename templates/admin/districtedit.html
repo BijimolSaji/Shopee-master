@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+{% load static %}
+{% include 'admin/header.html' %}
+<style>
+    /* Style for the input field */
+    .input-field {
+        border: none; /* Remove the default border */
+        border-bottom: 1px solid black; /* Add a bottom border */
+        outline: none; /* Remove the outline when focused */
+        padding: 5px 0; /* Optional padding */
+    }
+</style>
+<div class="main-panel">
+
+<div class="content">
+	<center>
+            <div class="container-fluid">
+<div class="col-md-2">
+
+</div>
+
+                    <div class="col-md-8">
+                        <div class="card">
+
+							<div class="container-login100">
+								<div class="wrap-login100">
+							<div class="login100-form-title" style="background-image: url({% static 'admin/img/faces/bg-01.jpg' %});">
+					<h2><span class="login100-form-title-1" style="background-color: white">
+						<br><br>
+						<b>District Edit</b>
+						<br><br>
+					</span></h2>
+				</div>
+							<br>
+                           <form class="login100-form validate-form p-b-33 p-t-5" method="post" action="{% url 'districtedit' emp.districtid %}">
+   				 {% csrf_token %}
+							   <br><br>
+							    <label for="districtname">Enter District Name:</label><br>
+    <input type="text" id="districtname" name="districtname" class="input-field" value="{{emp.districtname}}"><br><br>
+<!--					<div class="col-md-8">-->
+<!--					District name: <input  type="text" name="districtname" value="{{emp.districtname}}" placeholder="District name">-->
+
+<!--					</div>-->
+
+
+<div class="text-center">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+
+				</form><br><br><br><br><br>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+				</div>
+
+		</center>
+        </div>
+</div>
+
+
+
+
+
+
+
+
+{% include 'admin/footer.html' %}

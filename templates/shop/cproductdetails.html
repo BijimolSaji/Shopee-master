@@ -1,0 +1,227 @@
+{% load static %}
+{% include 'shop/header.html' %}
+<script src="{% static '/jquery.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+
+        // Function to update total price based on quantity
+        function updateTotalPrice() {
+            var quantity = parseInt($('#quantity').val());
+            var productPrice = parseFloat('{{ comproduct.comprdprice }}');
+            var totalAmount = quantity * productPrice;
+            $('#totalamount').val(totalAmount); // Limiting to 2 decimal places
+        }
+
+        // Call updateTotalPrice when quantity changes
+        $('#quantity').change(updateTotalPrice);
+    });
+</script>
+
+<html>
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Pluto - Responsive Bootstrap Admin Panel Templates</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'guest/assets/img/favicon.png' %}">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/all.min.css' %}">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="{% static 'guest/assets/bootstrap/css/bootstrap.min.css' %}">
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/owl.carousel.css' %}">
+    <!-- magnific popup -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/magnific-popup.css' %}">
+    <!-- animate css -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/animate.css' %}">
+    <!-- mean menu css -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/meanmenu.min.css' %}">
+    <!-- main style -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/main.css' %}">
+    <!-- responsive -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/responsive.css' %}">
+    <!-- product section -->
+    <style>
+        .submit-button {
+            background-color: #5411dd;
+            color: white;
+            font-size: 20px;
+            padding: 10px 240px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="inner_page contact_page">
+<div class="full_container">
+    <div class="inner_container">
+
+        <div id="content">
+
+            <!-- dashboard inner -->
+            <div class="midde_cont">
+                <div class="container-fluid">
+                    <div class="row column_title">
+                        <div class="col-md-12">
+                            <div class="page_title">
+                                <h2>Products</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- row -->
+                    <div class="row column1">
+                        <div class="col-md-12">
+                            <div class="white_shd full margin_bottom_30">
+                                <div class="full graph_head">
+                                    <div class="heading1 margin_0">
+                                        <h2>Products</h2>
+                                    </div>
+                                </div>
+                                <div class="full price_table padding_infor_info">
+                                    <div class="row">
+                                        <!-- column contact -->
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-8 offset-lg-2 text-center">
+                                                    <div class="section-title">
+                                                        <h3><span class="orange-text">Product</span> Request <span
+                                                                class="orange-text">Form</span></h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <div class="single-product-img" id="mainImageContainer">
+                                                        <img src="/images/{{comproduct.cpyimage1}}"
+                                                             style="width:500px;height:600px" id="mainImage">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="single-product-img" id="smallImages">
+                                                        <img src="/images/{{comproduct.cpyimage1}}"
+                                                             style="width:150px;height:100px"
+                                                             onclick="expandImage('/images/{{comproduct.cpyimage1}}')"><br><br>
+                                                        <img src="/images/{{comproduct.cpyimage2}}"
+                                                             style="width:150px;height:100px"
+                                                             onclick="expandImage('/images/{{comproduct.cpyimage2}}')">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <form class="form" method="post" enctype="multipart/form-data"
+                                                          action="{% url 'cproductdetails' id=comproduct.comproductid %}">
+                                                        {% csrf_token %}
+                                                        <h6><b>Product Name:</b></h6>
+                                                        <input type="text" value="{{comproduct.comproductname}}"
+                                                               class="form-control" name="productname" readonly/><br>
+
+                                                        <input type="hidden" value="{{comproduct.comproductid}}"
+                                                               class="form-control" name="comproductid" readonly/>
+                                                        <div class="input-box">
+                                                            <h6><b>Product Description:</b></h6>
+                                                            <input type="text" value=" {{comproduct.comproductdesc}}"
+                                                                   class="form-control" name="productdesc"
+                                                                   readonly/><br>
+                                                        </div>
+                                                        <div class="input-box">
+                                                            <h6><b>Company Name:</b></h6>
+                                                            <input type="text"
+                                                                   value=" {{comproduct.companyid.companyname}}"
+                                                                   class="form-control" name="companyname"
+                                                                   readonly/><br>
+                                                        </div>
+                                                          <input type="hidden"
+                                                                   value=" {{comproduct.companyid.companyid}}"
+                                                                   class="form-control" name="companyid"
+                                                                   readonly/>
+                                                        <input type="hidden"
+                                                                   value=" {{comproduct.unitid.unitid}}"
+                                                                   class="form-control" name="unitid"
+                                                                   readonly/>
+
+                                                        <div class="input-box">
+                                                            <h6><b>Product Price:</b></h6>
+                                                            <input type="text" value="{{ comproduct.comprdprice }}"
+                                                                   class="form-control" name="price" readonly/><br>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <div class="form-group first">
+                                                                    <div class="input-box">
+                                                                        <h6><b>Quantity:</b></h6>
+                                                                        <input type="number" min="1" id="quantity"
+                                                                               class="form-control" name="quantity">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                <div class="form-group first">
+                                                                    <div class="input-box">
+                                                                        <h6><b>Total Price:</b></h6>
+                                                                        <input type="text" id="totalamount"
+                                                                               class="form-control" name="totalamount"
+                                                                               readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="input-box">
+                                                            <h6><b>Additional Comments:</b></h6>
+                                                            <textarea class="form-control" name="comments"></textarea>
+                                                        </div>
+
+                                                        <br>
+                                                        <button type="submit" class="submit-button">Submit</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    function expandImage(imageSrc) {
+        var mainImage = document.getElementById('mainImage');
+        mainImage.src = imageSrc;
+        var mainImageContainer = document.getElementById('mainImageContainer');
+        mainImageContainer.style.display = 'block';
+    }
+</script>
+<script>
+    var currentImage = "/images/{{comproduct.cpyimage1}}";
+    var alternateImage = "/images/{{comproduct.cpyimage2}}";
+
+    function toggleImage() {
+        var mainImage = document.getElementById('mainImage');
+        if (mainImage.src === currentImage) {
+            mainImage.src = alternateImage;
+        } else {
+            mainImage.src = currentImage;
+        }
+    }
+</script>
+
+{% include 'shop/footer.html' %}

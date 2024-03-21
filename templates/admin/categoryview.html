@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'admin/header.html' %}
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+<div class="main-panel" style=" background-image: url({% static 'admin/img/faces/bg.jpg' %});">
+    <h2><center><u><b>Category Details</b></u></center></h2>
+
+<table>
+  <thead>
+  <tr>
+  <th scope="col">Sl.no</th>
+      <th scope="col">Category Name</th>
+      <th scope="col">Category Description</th>
+      <th scope="col">Category Image</th>
+        <th scope="col">Edit</th>
+    <th scope="col">Delete</th>
+  </tr>
+  </thead>
+    <tbody>
+  {% for em in category %}
+    <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{em.categoryname}}</td>
+        <td>{{em.categorydesc}}</td>
+        <td><img src="/images/{{em.categoryphoto}}" style="width:100px;height:100px"> </td>
+        <td><a href="{% url 'categoryedit' id=em.categoryid %}"><button type="button" class="btn btn-primary">Edit</button> </a> </td>
+        <td><a href="{% url 'deletecategory' id=em.categoryid %}" onclick="return confirm('Are u delete?')"><button type="button" class="btn btn-success">Delete</button>
+        </a>
+        </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+</body>
+</html>
+{% include 'admin/footer.html' %}
+

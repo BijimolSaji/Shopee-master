@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'company/header.html' %}
+
+
+    <script src="{% static 'guest/jquery.min.js' %}"></script>
+    <script>
+   $(document).ready(function () {
+
+ $.ajaxSetup({
+            headers: {
+                "X-CSRFToken": '{{ csrf_token }}'
+            }
+        });
+                $('#category').change(function ()
+				 {
+
+                    var did = $(this).val();
+                    $.ajax({
+				type: "POST",
+				url: '{% url "fillsubcategory" %}',
+				data: { did: did },
+				dataType: "json",
+				success: function (data) {
+					$('#subcategory').empty();
+
+				 var opt = $('<option />'); // here we're creating a new select option with for each city
+                 opt.val(0);
+                 opt.text('--Select--');
+                 $('#subcategory').append(opt);
+                $.each(data, function(key, val)
+                {
+                                var opt = $('<option />'); // here we're creating a new select option with for each city
+                                opt.val(val.subcategoryid);
+                                opt.text(val.subcategoryname);
+                                $('#subcategory').append(opt); //here we will append these new select options to a dropdown with the id 'cities'
+                });
+                        }
+			});
+                    });
+
+   });
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+ <style>
+
+.container {
+  position: relative;
+  max-width: 1000px;
+  width: 100%;
+  background: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+.container header {
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: 500;
+  text-align: center;
+}
+.container .form {
+  margin-top: 30px;
+}
+.form .input-box {
+  width: 100%;
+  margin-top: 20px;
+}
+.input-box label {
+  color: #333;
+}
+.form :where(.input-box input, .select-box) {
+  position: relative;
+  height: 50px;
+  width: 100%;
+  outline: none;
+  font-size: 1rem;
+  color: #707070;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0 15px;
+}
+.input-box input:focus {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+.form .column {
+  display: flex;
+  column-gap: 15px;
+}
+.form .gender-box {
+  margin-top: 20px;
+}
+.gender-box h3 {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.form :where(.gender-option, .gender) {
+  display: flex;
+  align-items: center;
+  column-gap: 50px;
+  flex-wrap: wrap;
+}
+.form .gender {
+  column-gap: 5px;
+}
+.gender input {
+  accent-color: rgb(130, 106, 251);
+}
+.form :where(.gender input, .gender label) {
+  cursor: pointer;
+}
+.gender label {
+  color: #707070;
+}
+.address :where(input, .select-box) {
+  margin-top: 15px;
+}
+.select-box select {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: #707070;
+  font-size: 1rem;
+}
+.form button {
+  height: 55px;
+  width: 100%;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 30px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgb(130, 106, 251);
+}
+.form button:hover {
+  background: rgb(88, 56, 250);
+}
+/*Responsive*/
+@media screen and (max-width: 500px) {
+  .form .column {
+    flex-wrap: wrap;
+  }
+  .form :where(.gender-option, .gender) {
+    row-gap: 15px;
+  }
+}</style>
+</head>
+
+<body>
+
+
+<section class="content">
+        <div class="container-fluid">
+      <h2><center>Product Registration</center></h2>
+      <form class="form" method="post" enctype="multipart/form-data" action="{% url 'comproductreg' %}">
+          {% csrf_token %}
+        <div class="input-box">
+        <div class="row">
+                    <div class="col-md-6">
+                  <div class="form-group first">
+                <div class="input-box">
+<!--            <span class="details">Product Category</span>-->
+            <label>Product Category</label>
+            <select name="category" id="category" class="form-control">
+                  <option value="" disabled selected>Category</option>
+                  {% for d in category %}
+                  <option value="{{d.categoryid}}">{{d.categoryname}}</option>
+                  {% endfor %}
+            </select>
+                </div></div></div>
+                 <div class="col-md-6">
+                  <div class="form-group first">
+          <div class="input-box">
+<!--              <span class="details">Product Subcategory</span>-->
+              <label>Product Subcategory</label>
+            <select name="subcategory" id="subcategory" class="form-control">
+                <option value="" disabled selected>Subcategory</option>
+               </select>
+          </div>
+                  </div></div></div>
+          <label>Product Name</label>
+          <input type="text" placeholder="Enter product name" name="comproductname" />
+        </div>
+
+        <div class="input-box">
+          <label>Product Description</label>
+          <input type="text" placeholder="Enter product description" name="comproductdesc" />
+        </div>
+           <div class="row">
+                    <div class="col-md-6">
+                  <div class="form-group first">
+                <div class="input-box">
+<!--            <span class="details">Product Unit</span><br><br>-->
+            <label>Product Unit</label>
+            <select name="unit" id="unit" class="form-control">
+                  <option value="" disabled selected>unit</option>
+                  {% for d in unit %}
+                  <option value="{{d.unitid}}">{{d.unitname}}</option>
+                  {% endfor %}
+            </select>
+                </div></div></div>
+               <div class="col-md-6">
+                   <div class="form-group first">
+               <div class="input-box">
+<!--                   <span class="details">Product price per unit</span>-->
+            <label>Product price per unit</label>
+            <input type="text" placeholder="Enter product price" name="comprdprice" />
+          </div>
+               </div>
+           </div>
+           </div>
+          <div class="row">
+                    <div class="col-md-6">
+                  <div class="form-group first">
+                      <div class="input-box">
+                      <label>Product Image1:</label>
+                    <input type="file" name="image1" placeholder="product image1" >
+                  </div>
+                  </div>
+                    </div>
+              <div class="col-md-6">
+                  <div class="form-group first">
+                      <div class="input-box">
+                      <label>Product Image2:</label>
+                    <input type="file" name="image2" placeholder="product image2" >
+                  </div>
+                    </div>
+              </div>
+          </div>
+        <button>Submit</button>
+      </form>
+        </div>
+    </section>
+
+
+
+
+<script type="text/javascript" src="{% static 'company/assets/js/jquery/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'company/assets/js/jquery-ui/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'company/assets/js/popper.js/popper.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'company/assets/js/bootstrap/js/bootstrap.min.js' %}"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="{% static 'company/assets/js/jquery-slimscroll/jquery.slimscroll.js' %}"></script>
+<!-- modernizr js -->
+<script type="text/javascript" src="{% static 'company/assets/js/modernizr/modernizr.js' %}"></script>
+<!-- am chart -->
+<script src="{% static 'company/assets/pages/widget/amchart/amcharts.min.js' %}"></script>
+<script src="{% static 'company/assets/pages/widget/amchart/serial.min.js' %}"></script>
+<!-- Todo js -->
+<script type="text/javascript " src="{% static 'company/assets/pages/todo/todo.js' %}"></script>
+<!-- Custom js -->
+<script type="text/javascript" src="{% static 'company/assets/pages/dashboard/custom-dashboard.js' %}"></script>
+<script type="text/javascript" src="{% static 'company/assets/js/script.js' %}"></script>
+<script type="text/javascript " src="{% static 'company/assets/js/SmoothScroll.js' %}"></script>
+<script src="{% static 'company/assets/js/pcoded.min.js' %}"></script>
+<script src="{% static 'company/assets/js/demo-12.js' %}"></script>
+<script src="{% static 'company/assets/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+</body>
+
+</html>
+

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'company/header.html' %}
+<html lang="en">
+
+<head>
+ <style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+
+<body>
+
+<section class="content">
+        <div class="container-fluid">
+    <h2><center><u><b>Product Requests</b></u></center></h2><br>
+
+<table>
+  <thead>
+  <tr>
+						    <tr>
+						      <th>Sl.no</th>
+						      <th>Product</th>
+						      <th>Shop Details</th>
+							<th>Quantity</th>
+						      <th>Price</th>
+	  						<th>Comments</th>
+						      <th>Requested Date</th>
+								<th>Accept</th>
+								<th>Reject</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+						  {% for em in shoprequest %}
+						    <tr>
+						      <th scope="row">{{forloop.counter}}</th>
+						      <td><img src="/images/{{em.comproductid.cpyimage1}}" style="width:100px;height:100px"><br>{{em.comproductid.comproductname}}</td>
+								<td><b>{{em.shopid.ownername}}</b><br>{{em.shopid.shopname}}<br>{{em.shopid.locationid.districtid.districtname}}<br>{{em.shopid.locationid.locationname}}<br>{{em.shopid.phone}}<br></td>
+						    <td>{{em.quantity}}</td>
+								<td>{{em.totalprice}}</td>
+								<td>{{em.comments}}</td>
+								<td>{{em.regdate}}</td>
+								<td><a href="{% url 'reqaccept' id=em.requestid %}"><button type="button" class="btn btn-success">Accept</button> </a> </td>
+						      <td><a href="{% url 'reqreject' id=em.requestid %}"><button type="button" class="btn btn-danger">Reject</button> </a> </td>
+							</tr>
+						  {% endfor %}
+						  </tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="{% static 'admin/request/js/jquery.min.js' %}"></script>
+  <script src="{% static 'admin/request/js/popper.js' %}"></script>
+  <script src="{% static 'admin/request/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'admin/request/js/main.js' %}"></script>
+
+</div>
+</body>
+</html>
+{% include 'company/footer.html' %}

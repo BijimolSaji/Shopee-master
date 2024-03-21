@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+{% load static %}
+{% include 'admin/header.html' %}
+<style>
+    /* Style for the input field */
+    .input-field {
+        border: none; /* Remove the default border */
+        border-bottom: 1px solid black; /* Add a bottom border */
+        outline: none; /* Remove the outline when focused */
+        padding: 5px 0; /* Optional padding */
+    }
+</style>
+<div class="main-panel">
+
+<div class="content">
+	<center>
+            <div class="container-fluid">
+<div class="col-md-2">
+
+</div>
+
+                    <div class="col-md-8">
+                        <div class="card">
+
+							<div class="container-login100">
+								<div class="wrap-login100">
+							<div class="login100-form-title" style="background-image: url({% static 'admin/img/faces/bg-01.jpg' %});">
+					<h2><span class="login100-form-title-1" style="background-color: white">
+						<br><br>
+						<b>Category Edit</b>
+						<br><br>
+					</span></h2>
+				</div>
+							<br>
+                           <form class="login100-form validate-form p-b-33 p-t-5" method="post" action="{% url 'categoryedit' emp.categoryid %}" enctype="multipart/form-data">
+   				 {% csrf_token %}
+							   <br>
+							   			 <label for="categoryname">Enter Category Name:</label><br>
+    <input type="text" id="categoryname" name="categoryname" class="input-field" value="{{emp.categoryname}}" ><br><br>
+					<label for="categorydesc">Enter Category Description:</label><br>
+    <input type="text" id="categorydesc" name="categorydesc" class="input-field" value="{{emp.categorydesc}}"><br><br>
+
+
+				<br>
+							   <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required" style="display:flex; margin-left: 220px;">
+
+					<label>Category Image: &nbsp;</label>
+
+<input type="file" name="categoryphoto" value="{{emp.categoryphoto}}" id="images">
+<input type="hidden" name="photoold" value="{{emp.categoryphoto}}">
+							   </div>
+
+<br><br>
+
+<!--					<div class="col-md-8">-->
+<!--					Category name: <input  type="text" name="categoryname" value="{{emp.categoryname}}" placeholder="Category name">-->
+
+<!--					</div>-->
+<!--                               <br><br>-->
+<!--					<div class="col-md-8">-->
+<!--					Category Description: <input  type="text" name="categorydesc" value="{{emp.categorydesc}}" placeholder="Category Description">-->
+
+<!--					</div>-->
+<!--							   <br><br>-->
+<!--					<div class="col-md-8">-->
+<!--						Category Image:<input type="file" name="categoryphoto" value="{{emp.categoryphoto}}" id="images">-->
+<!--						<input type="hidden" name="photoold" value="{{emp.categoryphoto}}">-->
+<!--					</div>-->
+<!--<br><br>-->
+
+<div class="text-center">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                    </div>
+
+				</form><br><br><br><br><br>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+				</div>
+
+		</center>
+        </div>
+</div>
+
+
+
+
+
+
+
+
+{% include 'admin/footer.html' %}

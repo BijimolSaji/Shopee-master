@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'admin/header.html' %}
+<html>
+<head>
+     <script src="{% static '/jquery.min.js' %}"></script>
+     <script>
+	$(document).ready(function()
+	{
+
+$.ajaxSetup({
+		headers : {"X-CSRFToken" : '{{csrf_token}}'}
+		});
+		$("#category").change(function()
+		{
+		var categoryid=$(this).val();
+
+		var i=1;
+		$.ajax({
+				type:"POST",
+				url : '{% url "fillsubcategory" %}',
+				data : {did :categoryid},
+				dataType:"json",
+				success : function(data)
+				{
+    				$('#subcategory').empty();
+                    // Populate table with new data
+                    $.each(data,function(key,val) {
+                    var id=val.subcategoryid;
+                    var editUrl = '{% url "subcategoryedit" 0 %}'.replace('0', id);
+                    var deleteUrl = '{% url "deletesubcategory" 0 %}'.replace('0', id);
+                    var row = "<tr><td>" + i++ + "</td><td>" + val.subcategoryname + "</td><td>" + val.subcategorydesc + "</td><td><img src='/images/" + val.subcategoryphoto + "'style='width:100px;height:100px;'></td><td><a href='"+editUrl+"'>Edit</a></td> <td><a href='"+deleteUrl+"'>Delete</a></td></tr>";
+					      $('#subcategory').append(row);
+                    });
+                 }
+                 });
+		});
+	});
+</script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+<div class="main-panel" style=" background-image: url({% static 'admin/img/faces/bg.jpg' %});">
+    <h2><center><u><b>Subcategory Details</b></u></center></h2>
+     <div class="col-md-8">
+						 Please Select Category:
+                        <select id="category" name="category" class="form-select">
+                            <option selected>Choose category</option>
+                            {% for d in category %}
+                            <option value="{{d.categoryid}}">{{d.categoryname}}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div><br><br>
+
+<table>
+  <thead>
+  <tr>
+  <th scope="col">Sl.no</th>
+<!--       <th scope="col">Category Name</th>-->
+      <th scope="col">Subcategory Name</th>
+      <th scope="col">Subcategory Description</th>
+      <th scope="col">Subcategory Image</th>
+        <th scope="col">Edit</th>
+    <th scope="col">Delete</th>
+  </tr>
+  </thead>
+    <tbody id="subcategory">
+  {% for em in subcategory %}
+    <tr>
+        <th scope="row">{{forloop.counter}}</th>
+<!--        <td>{{em.categoryid.categoryname}}</td>-->
+        <td>{{em.subcategoryname}}</td>
+        <td>{{em.subcategorydesc}}</td>
+        <td><img src="/images/{{em.subcategoryphoto}}" style="width:80px;height:80px"> </td>
+        <td><a href="{% url 'subcategoryedit' id=em.subcategoryid %}"><button type="button" class="btn btn-danger">Edit</button> </a> </td>
+        <td><a href="{% url 'deletesubcategory' id=em.subcategoryid %}" onclick="return confirm('Are u delete?')"><button type="button" class="btn btn-primary">Delete</button>
+        </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+</body>
+</html>
+{% include 'admin/footer.html' %}
+

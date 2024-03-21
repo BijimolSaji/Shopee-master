@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'company/header.html' %}
+
+
+
+<html lang="en">
+
+<head>
+ <style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+
+<body>
+
+<section class="content">
+        <div class="container-fluid">
+    <h2><center><u><b>Product Details</b></u></center></h2>
+
+<table>
+  <thead>
+  <tr>
+  <th scope="col">Sl.no</th>
+      <th scope="col">Product Image1</th>
+      <th scope="col">Product Image2</th>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Description</th>
+      <th scope="col">Category</th>
+      <th scope="col">Subcategory</th>
+      <th scope="col">Price/Unit</th>
+        <th scope="col">Edit</th>
+    <th scope="col">Delete</th>
+  </tr>
+  </thead>
+    <tbody>
+  {% for em in comproduct %}
+    <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td><img src="/images/{{em.cpyimage1}}" style="width:100px;height:100px"> </td>
+        <td><img src="/images/{{em.cpyimage2}}" style="width:100px;height:100px"> </td>
+        <td>{{em.comproductname}}</td>
+        <td>{{em.comproductdesc}}</td>
+        <td>{{em.categoryid.categoryname}}</td>
+        <td>{{em.subcategoryid.subcategoryname}}</td>
+        <td>{{em.comprdprice}}</td>
+        <td><a href="{% url 'comproductedit' id=em.comproductid %}"><button type="button" class="btn btn-primary">Edit</button> </a> </td>
+        <td><a href="{% url 'deletecomproduct' id=em.comproductid %}" onclick="return confirm('Are u delete?')"><button type="button" class="btn btn-success">Delete</button>
+        </a>
+        </td>
+
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+<script type="text/javascript" src="{% static 'company/assets/js/jquery/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'company/assets/js/jquery-ui/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'company/assets/js/popper.js/popper.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'company/assets/js/bootstrap/js/bootstrap.min.js' %}"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="{% static 'company/assets/js/jquery-slimscroll/jquery.slimscroll.js' %}"></script>
+<!-- modernizr js -->
+<script type="text/javascript" src="{% static 'company/assets/js/modernizr/modernizr.js' %}"></script>
+<!-- am chart -->
+<script src="{% static 'company/assets/pages/widget/amchart/amcharts.min.js' %}"></script>
+<script src="{% static 'company/assets/pages/widget/amchart/serial.min.js' %}"></script>
+<!-- Todo js -->
+<script type="text/javascript " src="{% static 'company/assets/pages/todo/todo.js' %}"></script>
+<!-- Custom js -->
+<script type="text/javascript" src="{% static 'company/assets/pages/dashboard/custom-dashboard.js' %}"></script>
+<script type="text/javascript" src="{% static 'company/assets/js/script.js' %}"></script>
+<script type="text/javascript " src="{% static 'company/assets/js/SmoothScroll.js' %}"></script>
+<script src="{% static 'company/assets/js/pcoded.min.js' %}"></script>
+<script src="{% static 'company/assets/js/demo-12.js' %}"></script>
+<script src="{% static 'company/assets/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+</section>
+</body>
+
+</html>
+

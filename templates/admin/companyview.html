@@ -1,0 +1,66 @@
+<!doctype html>
+{% load static %}
+{% include 'admin/header.html' %}
+
+<div class="main-panel">
+
+
+
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div >
+                    <br>
+                    <a href="{% url 'companyrequestview' %}"><button type="button" class="btn btn-primary">Company Request</button> </a>
+					<h2><center><u><b>Company View</b></u></center></h2>
+				</div>
+			</div><br>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="table-wrap">
+						<table class="table table-striped">
+						  <thead>
+						    <tr>
+						      <th>Sl.no</th>
+						      <th>Company Name</th>
+						      <th>Company Logo</th>
+                                <th>Registration Number</th>
+							<th>District</th>
+								<th>Location</th>
+						      <th>Phone</th>
+						      <th>Email</th>
+						      <th>Reg Date</th>
+
+						    </tr>
+						  </thead>
+						  <tbody>
+						  {% for em in company %}
+						    <tr>
+						      <th scope="row">{{forloop.counter}}</th>
+						      <td>{{em.companyname}}</td>
+						      <td><img src="/images/{{em.logo}}" style="width:100px;height:100px"></td>
+						      <td>{{em.regno}}</td>
+                                <td>{{em.locationid.districtid.districtname}}</td>
+								<td>{{em.locationid.locationname}}</td>
+						      <td>{{em.phone}}</td>
+						      <td>{{em.email}}</td>
+						      <td>{{em.regdate}}</td>
+						    </tr>
+						  {% endfor %}
+						  </tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="{% static 'admin/request/js/jquery.min.js' %}"></script>
+  <script src="{% static 'admin/request/js/popper.js' %}"></script>
+  <script src="{% static 'admin/request/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'admin/request/js/main.js' %}"></script>
+
+
+
+</div>
+{% include 'admin/footer.html' %}

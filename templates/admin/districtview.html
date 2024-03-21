@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'admin/header.html' %}
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+<div class="main-panel" style=" background-image: url({% static 'admin/img/faces/bg.jpg' %});">
+    <h2><center><u><b>District Details</b></u></center></h2>
+
+<table>
+  <thead>
+  <tr>
+  <th scope="col">Sl.no</th>
+      <th scope="col">District Name</th>
+        <th scope="col">Edit</th>
+    <th scope="col">Delete</th>
+  </tr>
+  </thead>
+    <tbody>
+  {% for em in district %}
+    <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{em.districtname}}</td>
+        <td><a href="{% url 'districtedit' id=em.districtid %}"><button type="button" class="btn btn-success">Edit</button> </a> </td>
+        <td><a href="{% url 'deletedistrict' id=em.districtid %}" onclick="return confirm('Are u delete?')"><button type="button" class="btn btn-primary">Delete</button>
+        </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+</body>
+</html>
+{% include 'admin/footer.html' %}
+

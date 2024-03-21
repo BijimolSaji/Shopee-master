@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+{% load static %}
+{% include 'company/header.html' %}
+<html lang="en">
+<script src="{% static '/jquery.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {"X-CSRFToken": '{{csrf_token}}'}
+        });
+
+        $("#date").change(function() {
+            var date = $(this).val();
+            var shopId = $("#shop").val(); // Get the selected shop value
+            var i = 1;
+            $.ajax({
+                type: "POST",
+                url: '{% url "viewrequestsbyshop" %}',
+                data: {
+                    shop: shopId,
+                    date: date
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('#details').empty();
+
+                    $.each(data, function(key, val) {
+                        var id = val.comproductid;
+                        var row = "<tr><td>" + i++ + "</td><td><img src='/images/" + val.comproductid__cpyimage1 + "'style='width:100px;height:100px;'>" +"<br>"+
+                            val.comproductid__comproductname + "</td><td>" + val.shopid__ownername +"<br>"+ val.shopid__shopname +"<br>"+
+                            val.shopid__locationid__districtid__districtname +"<br>"+ val.shopid__locationid__locationname +"<br>"+ val.shopid__phone + "</td><td>" + val.quantity + "</td><td>" + val.totalprice + "</td><td>" + val.comments + "</td><td>" + val.regdate + "</td></tr>";
+                        $('#details').append(row);
+                    });
+
+                    var billUrl = '{% url "billgen" %}';
+                    var bill="<tr><td colspan='8' style='text-align:center;'><button class='btn btn-primary'><a href='" + billUrl + "'>Generate Bill</a></button></td></tr>";
+                    $('#details').append(bill);
+
+                    var cancelBtn = "<tr><td colspan='8' style='text-align:center;'><button class='btn btn-danger' id='cancelBtn'>Cancel</button></td></tr>";
+                    $('#details').append(cancelBtn);
+
+                    // Reload page when cancel button is clicked
+                    $('#cancelBtn').click(function() {
+                        location.reload();
+                        });
+                }
+            });
+        });
+    });
+</script>
+
+
+<head>
+    <style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+    </style>
+
+    <script src="{% static 'guest/jquery.min.js' %}"></script>
+
+</head>
+
+
+<body>
+
+<section class="content">
+    <div class="container-fluid">
+        <h2>
+            <center><u><b>Accepted Requests</b></u></center>
+            <br>
+        </h2>
+        <form method="post">
+            <div class="row">
+                <div class="col-md-5">
+                    <label for="shop">Please Select Shop Name:</label>
+                    <select id="shop" name="shop" class="form-control">
+                        <option selected>Choose shop</option>
+                        {% for em in shoprequest %}
+                        <option value="{{em.shopid}}">{{em.shopid__shopname}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label for="date">Requested Date</label>
+                    <input type="date" id="date" name="date" class="form-control">
+                </div>
+
+            </div>
+        </form>
+
+        <br><br>
+        <table>
+            <thead>
+            <tr>
+            <tr>
+                <th>Sl.no</th>
+                <th>Product</th>
+                <th>Shop Details</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Comments</th>
+                <th>Requested Date</th>
+            </tr>
+            </thead>
+            <tbody id="details">
+            {% for em in details %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td><img src="/images/{{em.comproductid.cpyimage1}}" style="width:100px;height:100px"><br>{{em.comproductid.comproductname}}
+                </td>
+                <td><b>{{em.shopid.ownername}}</b><br>{{em.shopid.shopname}}<br>{{em.shopid.locationid.districtid.districtname}}<br>{{em.shopid.locationid.locationname}}<br>{{em.shopid.phone}}<br>
+                </td>
+                <td>{{em.quantity}}</td>
+                <td>{{em.totalprice}}</td>
+                <td>{{em.comments}}</td>
+                <td>{{em.regdate}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+    </div>
+    </div>
+    </div>
+</section>
+
+<script src="{% static 'admin/request/js/jquery.min.js' %}"></script>
+<script src="{% static 'admin/request/js/popper.js' %}"></script>
+<script src="{% static 'admin/request/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'admin/request/js/main.js' %}"></script>
+
+</div>
+</body>
+</html>
+
+{% include 'company/footer.html' %}

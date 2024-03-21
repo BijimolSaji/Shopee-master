@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+{% load static %}
+{% include 'admin/header.html' %}
+<style>
+    /* Style for the input field */
+    .input-field {
+        border: none; /* Remove the default border */
+        border-bottom: 1px solid black; /* Add a bottom border */
+        outline: none; /* Remove the outline when focused */
+        padding: 5px 0; /* Optional padding */
+    }
+</style>
+
+<div class="main-panel">
+
+<div class="content">
+	<center>
+            <div class="container-fluid">
+<div class="col-md-2">
+
+</div>
+
+                    <div class="col-md-8">
+                        <div class="card">
+
+							<div class="container-login100">
+								<div class="wrap-login100">
+							<div class="login100-form-title" style="background-image: url({% static 'admin/img/faces/bg-01.jpg' %});">
+					<h2><span class="login100-form-title-1" style="background-color: white">
+						<br><br>
+						<b>Category Registration</b>
+						<br><br>
+					</span></h2>
+				</div>
+							<br>
+				<form class="login100-form validate-form p-b-33 p-t-5" method="post" action="{% url 'category' %}" enctype="multipart/form-data">
+   				 {% csrf_token %}
+<br>
+					 <label for="categoryname">Enter Category Name:</label><br>
+    <input type="text" id="categoryname" name="categoryname" class="input-field"><br><br>
+					<label for="categorydesc">Enter Category Description:</label><br>
+    <input type="text" id="categorydesc" name="categorydesc" class="input-field"><br><br>
+<!--					Enter Category name:-->
+<!--						<input type="text" name="categoryname" placeholder="Category name">-->
+<!--						<span class="focus-input100" data-placeholder="&#xe82a;"></span><br><br>-->
+
+
+<!--					Enter Category Description:-->
+<!--						<input type="text" name="categorydesc" placeholder="Category Description">-->
+
+
+				<br>	<div class="wrap-input100 validate-input m-b-26" data-validate="Username is required" style="display:flex; margin-left: 220px;">
+
+					<label>Category Image: &nbsp;</label>
+            <input type="file" name="categoryphoto" placeholder="Insert Category Image" >
+          </div>
+<br><br>
+
+					<div class="container-login100-form-btn m-t-32">
+						<button class="login100-form-btn" style="background-color:#3fab4c">
+							Register
+						</button><br><br><br><br><br><br>
+					</div>
+
+				</form>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+				</div>
+
+		</center>
+        </div>
+</div>
+
+
+
+<!--	<div class="limiter">-->
+<!--		<div class="container-login100" style="background-image: url('{% static 'admin/district/images/bg-01.jpg' %}');">-->
+<!--			<div class="wrap-login100 p-t-30 p-b-50">-->
+<!--				<span class="login100-form-title p-b-41">-->
+<!--					Category Registration-->
+<!--				</span>-->
+<!--				<form class="login100-form validate-form p-b-33 p-t-5" method="post" action="{% url 'category' %}" enctype="multipart/form-data">-->
+<!--   				 {% csrf_token %}-->
+<!--<br>-->
+<!--					<div>Enter Category name:<br>-->
+<!--						<input type="text" name="categoryname" placeholder="Category name">-->
+<!--						<span class="focus-input100" data-placeholder="&#xe82a;"></span>-->
+<!--					</div><br>-->
+
+<!--					<div>Enter Category Description:<br>-->
+<!--						<input type="text" name="categorydesc" placeholder="Category Description">-->
+<!--						<span class="focus-input100" data-placeholder="&#xe82a;"></span>-->
+<!--					</div><br>-->
+
+<!--					<div class="input-box">-->
+<!--            <span class="details">Category Photo</span>-->
+<!--            <input type="file" name="categoryphoto" placeholder="Insert Category Image" >-->
+<!--          </div>-->
+
+
+
+<!--					<div class="container-login100-form-btn m-t-32">-->
+<!--						<button class="login100-form-btn">-->
+<!--							Register-->
+<!--						</button>-->
+<!--					</div>-->
+
+
+<!--				</form>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+
+
+<!--	-->
+{% include 'admin/footer.html' %}
