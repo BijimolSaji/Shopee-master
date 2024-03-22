@@ -173,6 +173,7 @@ def viewrequestsbyshop(request):
                                      'shopid__shopname', 'shopid__locationid__locationname',
                                      'shopid__locationid__districtid__districtname',
                                      'shopid__phone', 'quantity', 'totalprice', 'comments', 'regdate'))
+
     # return HttpResponse(data)
     return JsonResponse(data, safe=False)
 

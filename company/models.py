@@ -1,9 +1,8 @@
 from datetime import date
-
 from django.db import models
-
-from admin.models import tbl_location, tbl_category, tbl_subcategory
+from admin.models import *
 from guest.models import tbl_login
+
 
 
 # Create your models here.
@@ -37,3 +36,8 @@ class tbl_comproduct(models.Model):
     cpyimage1 = models.ImageField()
     cpyimage2 = models.ImageField()
     regdate = models.DateField(default=date.today)
+
+
+
+
+

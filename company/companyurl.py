@@ -15,5 +15,4 @@ urlpatterns = [
     path('filldate/', views.filldate, name='filldate'),
     path('viewrequestsbyshop/', views.viewrequestsbyshop, name="viewrequestsbyshop"),
     path('billgen/',views.billgen,name="billgen"),
-
 ]

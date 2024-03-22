@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 from admin.models import tbl_subcategory, tbl_category
 from company.models import tbl_comproduct, tbl_unit, tbl_company
-from shop.models import tbl_shopproduct, tbl_shop, tbl_cprdrequest
+from shop.models import tbl_shopproduct, tbl_shop, tbl_cprdrequest, tbl_selectedprd, tbl_salesmaster
 
 
 # Create your views here.
@@ -130,4 +130,33 @@ def fillshopproduct(request):
     product = tbl_shopproduct.objects.filter(subcategoryid=did).values()
     return JsonResponse(list(product), safe=False)
 
+def salesdetails(request , id):
+        shopobj = tbl_selectedprd()
+        c = request.session.get('loginid')
+        shopobj.shopid = tbl_shop.objects.get(loginid=c)
+        shopobj.shopproductid = tbl_shopproduct.objects.get(shopproductid=id)
+        shopobj.quantity= 0
+        shopobj.totalprice=0
+        shopobj.status= 'selected'
+        shopobj.save()
+        return HttpResponse("<script>alert('Product Added Successfully');window.location='/Shop/sales/';</script>")
 
+def salesbill(request):
+    c = request.session.get('loginid')
+    shopid = tbl_shop.objects.get(loginid=c)
+    emp = tbl_selectedprd.objects.filter(shopid=shopid,status='selected')
+    return render(request, "shop/salesbill.html", {'bill': emp})
+
+def deleteselecteditem(request, id):
+    emp = tbl_selectedprd.objects.get(selectid=id)
+    emp.delete()
+    return HttpResponse("<script>alert('Item Deleted');window.location='/Shop/salesbill/';</script>")
+
+def printbill(request):
+    shopobj = tbl_salesmaster()
+    c = request.session.get('loginid')
+    shopobj.shopid = tbl_shop.objects.get(loginid=c)
+    shopobj.totalprice = request.POST.get('totalprice')
+    shopobj.status = 'sold'
+    shopobj.save()
+    return HttpResponse("<script>alert('Product Added Successfully');window.location='/Shop/sales/';</script>")

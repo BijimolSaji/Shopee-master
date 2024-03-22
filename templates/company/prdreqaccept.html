@@ -23,23 +23,25 @@
                 dataType: "json",
                 success: function(data) {
                     $('#details').empty();
-
-                    $.each(data, function(key, val) {
-                        var id = val.comproductid;
+                    var totalPriceSum = 0;
+                   $.each(data, function(key, val) {
+                    var id = val.comproductid;
+                     var totalPrice = parseFloat(val.totalprice);
+                        totalPriceSum += totalPrice;
                         var row = "<tr><td>" + i++ + "</td><td><img src='/images/" + val.comproductid__cpyimage1 + "'style='width:100px;height:100px;'>" +"<br>"+
-                            val.comproductid__comproductname + "</td><td>" + val.shopid__ownername +"<br>"+ val.shopid__shopname +"<br>"+
-                            val.shopid__locationid__districtid__districtname +"<br>"+ val.shopid__locationid__locationname +"<br>"+ val.shopid__phone + "</td><td>" + val.quantity + "</td><td>" + val.totalprice + "</td><td>" + val.comments + "</td><td>" + val.regdate + "</td></tr>";
-                        $('#details').append(row);
-                    });
-
+                         val.comproductid__comproductname + "</td><td>" + val.shopid__ownername +"<br>"+ val.shopid__shopname +"<br>"+
+                             val.shopid__locationid__districtid__districtname +"<br>"+ val.shopid__locationid__locationname +"<br>"+ val.shopid__phone + "</td><td>" + val.quantity + "</td><td>" + val.comments + "</td><td>" + val.regdate + "</td><td>" + val.totalprice + "</td></tr>";
+                                $('#details').append(row);
+                        });
+                    var totalRow = "<tr><td colspan='6' style='text-align:right;'><b>Total:</b></td><td><b>" + totalPriceSum + "</b></td><td ></td></tr>";
+                    $('#details').append(totalRow);
                     var billUrl = '{% url "billgen" %}';
-                    var bill="<tr><td colspan='8' style='text-align:center;'><button class='btn btn-primary'><a href='" + billUrl + "'>Generate Bill</a></button></td></tr>";
+                    var bill="<tr><td colspan='7' style='text-align:right;'><button class='btn btn-primary'><a class='btn btn-primary'   href='" + billUrl + "'>Generate Bill</a></button></td></tr>";
                     $('#details').append(bill);
 
-                    var cancelBtn = "<tr><td colspan='8' style='text-align:center;'><button class='btn btn-danger' id='cancelBtn'>Cancel</button></td></tr>";
+                    var cancelBtn = "<tr><td colspan='7' style='text-align:right;'><button class='btn btn-danger' id='cancelBtn'>Cancel</button></td></tr>";
                     $('#details').append(cancelBtn);
 
-                    // Reload page when cancel button is clicked
                     $('#cancelBtn').click(function() {
                         location.reload();
                         });

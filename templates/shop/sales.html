@@ -132,12 +132,19 @@ tr:nth-child(even) {
                      <!-- row -->
                      <div class="row column1">
                         <div class="col-md-12">
-                           <div class="white_shd full margin_bottom_30">
-                              <div class="full graph_head">
-                                 <div class="heading1 margin_0">
-                                    <h2>Products</h2>
-                                 </div>
-                              </div>
+                           <div class="white_shd full margin_bottom_30"><div class="full graph_head">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="heading1 margin_0">
+                <h2>Products</h2>
+            </div>
+        </div>
+        <div class="col-md-6 text-right">
+            <a href="{% url 'salesbill' %}" class="btn btn-primary">Generate Bill</a>
+        </div>
+    </div>
+</div>
+
                                  <div class="col-lg-8 offset-lg-2 text-center">
 <!--                <div class="section-title">-->
   <h3><span class="orange-text">Product</span> Details</h3>
@@ -181,6 +188,7 @@ tr:nth-child(even) {
                               </div>
                               <div class="table_section padding_infor_info">
                                  <div class="table-responsive-sm">
+
                                     <table class="table">
   <thead>
   <tr>
@@ -200,12 +208,13 @@ tr:nth-child(even) {
         <td>{{em.shopproductdesc}}</td>
         <td>{{em.stock}}  {{em.unitid.unitname}}</td>
         <td>{{em.price}}</td>
-        <td><a><button type="button" class="btn btn-success">+</button> </a> </td>
+<!--        <td><a><button type="button" class="btn btn-success">+</button> </a> </td>-->
+        <td><a href="{% url 'salesdetails' id=em.shopproductid %}"><button type="button" class="btn btn-success">+</button> </a> </td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
-        </div>
+                                    </div>
                                      </section>
                                  </div>
                               </div></div></div></div>

@@ -1,0 +1,178 @@
+{% load static %}
+{% include 'shop/header.html' %}
+<script src="{% static '/jquery.min.js' %}"></script>
+<script>
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+
+        // Function to update total price based on quantity
+        function updateTotalPrice() {
+            var totalPriceSum = 0;
+
+            // Loop through each row to calculate total amount
+            $('.totalamount').each(function() {
+                var quantity = parseInt($(this).closest('tr').find('.quantity').val()) || 0; // Default to zero if not provided
+                var productPrice = parseFloat($(this).closest('tr').find('.product-price').text()) || 0; // Default to zero if not provided
+                var totalAmount = quantity * productPrice;
+                totalPriceSum += totalAmount;
+                $(this).val(totalAmount.toFixed(2)); // Limiting to 2 decimal places
+            });
+
+            // Update the total amount in the total row
+            $('.total-amount').text(totalPriceSum.toFixed(2));
+        }
+
+        // Call updateTotalPrice when quantity changes
+        $('.quantity').change(updateTotalPrice);
+
+        // Trigger the initial calculation
+        updateTotalPrice();
+    });
+</script>
+
+<html>
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- site metas -->
+    <title>Pluto - Responsive Bootstrap Admin Panel Templates</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="{% static 'guest/assets/img/favicon.png' %}">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/all.min.css' %}">
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="{% static 'guest/assets/bootstrap/css/bootstrap.min.css' %}">
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/owl.carousel.css' %}">
+    <!-- magnific popup -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/magnific-popup.css' %}">
+    <!-- animate css -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/animate.css' %}">
+    <!-- mean menu css -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/meanmenu.min.css' %}">
+    <!-- main style -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/main.css' %}">
+    <!-- responsive -->
+    <link rel="stylesheet" href="{% static 'guest/assets/css/responsive.css' %}">
+    <!-- product section -->
+</head>
+<body class="inner_page contact_page">
+<div class="full_container">
+    <div class="inner_container">
+        <div id="content">
+            <!-- dashboard inner -->
+            <div class="midde_cont">
+                <div class="container-fluid">
+                    <div class="row column_title">
+                        <div class="col-md-12">
+                            <div class="page_title">
+                                <h2>Products</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- row -->
+                    <div class="row column1">
+                        <div class="col-md-12">
+                            <div class="white_shd full margin_bottom_30">
+                                <div class="full graph_head">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="heading1 margin_0">
+                                                <h2>Products</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 offset-lg-2 text-center">
+                                    <h3><span class="orange-text">Sales</span> Details</h3>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="white_shd full margin_bottom_30">
+                                        <div class="full graph_head">
+                                        </div>
+                                        <div class="table_section padding_infor_info">
+                                            <div class="table-responsive-sm">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Sl.no</th>
+                                                            <th scope="col">Product Name</th>
+                                                            <th scope="col">Product Description</th>
+                                                            <th scope="col">Stock</th>
+                                                            <th scope="col">Price/Unit</th>
+                                                            <th scope="col">Required Quantity</th>
+                                                            <th scope="col">Total</th>
+                                                            <th scope="col">Cancel</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="product">
+                                                        {% for em in bill %}
+                                                            <tr>
+                                                                <th scope="row">{{forloop.counter}}</th>
+                                                                <td>{{em.shopproductid.shopproductname}}</td>
+                                                                <td>{{em.shopproductid.shopproductdesc}}</td>
+                                                                <td>{{em.shopproductid.stock}}  {{em.shopproductid.unitid.unitname}}</td>
+                                                                <td class="product-price">{{em.shopproductid.price}}</td>
+                                                                <td><input type="number" min="1" class="form-control quantity" name="quantity" required></td>
+                                                                <td><input type="text" class="form-control totalamount" name="totalamount" readonly></td>
+                                                                <td><a href="{% url 'deleteselecteditem' id=em.selectid %}" onclick="return confirm('Are u delete?')"><button type="button" class="btn btn-danger">X</button></a></td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="6" style="text-align:right;"><b>Total Amount:</b></td>
+                                                            <td><b><span class="total-amount" name="totalprice">0.00</span></b></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    <tr>
+                                                            <td colspan="6" style="text-align:right;"></td>
+                                                            <td><a href="/Shop/printbill/"><button type="button" class="btn btn-success">Print Bill</button></a></td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

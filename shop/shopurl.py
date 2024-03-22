@@ -14,5 +14,8 @@ urlpatterns=[
     path('shopproductedit/<id>/',views.shopproductedit,name="shopproductedit"),
     path('sales/',views.sales),
     path('fillshopproduct/', views.fillshopproduct, name="fillshopproduct"),
-
+    path('salesdetails/<id>/',views.salesdetails,name="salesdetails"),
+    path('salesbill/',views.salesbill,name="salesbill"),
+    path('deleteselecteditem/<id>/', views.deleteselecteditem, name="deleteselecteditem"),
+    path('printbill/',views.printbill,name="printbill"),
 ]
